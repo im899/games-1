@@ -1,1 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roll a Ball Game</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #f0f0f0;
+  }
+  #gameArea {
+    width: 600px;
+    height: 400px;
+    background-color: #ddd;
+    position: relative;
+    overflow: hidden;
+  }
+  #ball {
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+  }
+</style>
+</head>
+<body>
 
+<div id="gameArea">
+  <div id="ball"></div>
+</div>
+
+<script>
+// Initial position
+let xPosition = 0;
+let yPosition = 0;
+
+// Move speed in pixels
+const moveSpeed = 10;
+
+// Get the ball element
+const ball = document.getElementById('ball');
+
+// Update the ball's position
+function updateBallPosition() {
+  ball.style.left = xPosition + 'px';
+  ball.style.top = yPosition + 'px';
+}
+
+// Listen for arrow key presses
+document.addEventListener('keydown', function(event) {
+  switch (event.key) {
+    case 'ArrowUp':
+      yPosition -= moveSpeed;
+      break;
+    case 'ArrowDown':
+      yPosition += moveSpeed;
+      break;
+    case 'ArrowLeft':
+      xPosition -= moveSpeed;
+      break;
+    case 'ArrowRight':
+      xPosition += moveSpeed;
+      break;
+  }
+  updateBallPosition();
+});
+
+// Prevent the ball from moving outside the game area
+function checkBoundaries() {
+  const gameArea = document.getElementById('gameArea');
+  const maxX = gameArea.clientWidth - ball.clientWidth;
+  const maxY = gameArea.clientHeight - ball.clientHeight;
+
+  if (xPosition < 0) xPosition = 0;
+  if (yPosition < 0) yPosition = 0;
+  if (xPosition > maxX) xPosition = maxX;
+  if (yPosition > maxY) yPosition = maxY;
+}
+
+setInterval(checkBoundaries, 10);
+</script>
+
+</body>
+</html>
