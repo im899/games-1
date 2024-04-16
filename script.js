@@ -51,15 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function checkCollisions() {
-        if (isCollision(player, enemy)) {
-            score++;
-            scoreElement.textContent = 'Eliminaties: ' + score;
-            resetEnemy();
-            enemySpeed += 0.5; // De vijand beweegt sneller na elke eliminatie
-        }
-    }
-
     function resetEnemy() {
         const x = Math.floor(Math.random() * (gameArea.clientWidth - enemy.clientWidth));
         const y = Math.floor(Math.random() * (gameArea.clientHeight - enemy.clientHeight));
