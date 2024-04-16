@@ -51,8 +51,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    function checkCollisions() {
+        if (isCollision(player, enemy)) {
+            score++;
+            scoreElement.textContent = 'Eliminaties: ' + score;
+            resetEnemy();
+            enemySpeed += 0.5; // De vijand beweegt sneller na elke eliminatie
+        }
+    }
+
     function resetEnemy() {
         const x = Math.floor(Math.random() * (gameArea.clientWidth - enemy.clientWidth));
         const y = Math.floor(Math.random() * (gameArea.clientHeight - enemy.clientHeight));
         enemy.style.left = x + 'px';
         enemy.style.top = y + 'px';
+    }
+
+    function isCollision(a, b) {
+        return !(
+            ((a.offsetTop + a.clientHeight) < (b.offsetTop)) ||
+            (a.offsetTop > (b.offsetTop + b.clientHeight)) ||
+            ((a.offsetLeft + a.clientWidth) < b.offsetLeft) ||
+            (a.offsetLeft > (b.offsetLeft + b.clientWidth))
+        );
+    }
+});
