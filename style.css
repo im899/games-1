@@ -1,37 +1,40 @@
-body, html {
-    height: 100%;
-    margin: 0;
-    font-family: Arial, sans-serif;
-}
-
 #gameArea {
-    width: 100%; /* of een specifieke breedte/hoogte */
-    height: 100%;
+    width: 800px;
+    height: 600px;
+    background-color: yellow;
     position: relative;
     overflow: hidden;
-  
 }
 
 #player, #enemy, .obstacle {
     position: absolute;
-    border-radius: 50%;  /* Voor ronde vijand en speler */
 }
 
 #player {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     background-color: blue;
+    border-radius: 50%;
 }
 
 #enemy {
-    width: 60px;
-    height: 60px;
+    width: 30px;
+    height: 30px;
     background-color: red;
+    border-radius: 50%;
 }
 
 .obstacle {
-    width: 100px;
-    height: 100px;
+    width: 40px;
+    height: 40px;
     background-color: black;
-    border-radius: 0; /* Maak de obstakels vierkant */
+}
+
+#score {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: black;
+    font-size: 18px;
+    padding: 10px;
 }
