@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function moveEnemy() {
-        let newX = enemy.offsetLeft + (Math.random() * enemySpeed * 2 - enemySpeed);
-        let newY = enemy.offsetTop + (Math.random() * enemySpeed * 2 - enemySpeed);
+        let newX = enemy.offsetLeft + (Math.random() * enemySpeed * 5 - enemySpeed);
+        let newY = enemy.offsetTop + (Math.random() * enemySpeed * 5 - enemySpeed);
         newX = Math.max(0, Math.min(gameArea.clientWidth - enemy.clientWidth, newX));
         newY = Math.max(0, Math.min(gameArea.clientHeight - enemy.clientHeight, newY));
         enemy.style.left = newX + 'px';
@@ -44,8 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
         obstacles.forEach(obstacle => {
             let newX = obstacle.offsetLeft + (Math.random() * 0.5 - 0.25);
             let newY = obstacle.offsetTop + (Math.random() * 0.5 - 0.25);
-            newX = Math.max(0, Math.min(gameArea.clientWidth - obstacle.clientWidth, newX));
-            newY = Math.max(0, Math.min(gameArea.clientHeight - obstacle.clientHeight, newY));
             obstacle.style.left = newX + 'px';
             obstacle.style.top = newY + 'px';
         });
