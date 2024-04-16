@@ -1,88 +1,67 @@
 document.addEventListener('DOMContentLoaded', function() {
     const player = document.getElementById('player');
     const enemy = document.getElementById('enemy');
-    const gameArea = document.getElementById('gameArea');
     const obstacles = document.querySelectorAll('.obstacle');
     const scoreElement = document.getElementById('score');
     let score = 0;
-
-    let enemySpeedX = 0.5 - Math.random(); // willekeurige snelheid voor de vijand
-    let enemySpeedY = 0.5 - Math.random(); // willekeurige snelheid voor de vijand
+    let enemySpeed = 1;
 
     document.addEventListener('keydown', function(e) {
         movePlayer(e);
     });
 
+    setInterval(function() {
+        moveEnemy();
+        moveObstacles();
+    }, 50);
+
     function movePlayer(event) {
         let x = player.offsetLeft;
         let y = player.offsetTop;
         switch(event.key) {
-            case 'ArrowUp': y -= 20; break;
-            case 'ArrowDown': y += 20; break;
-            case 'ArrowLeft': x -= 20; break;
-            case 'ArrowRight': x += 20; break;
+            case 'ArrowUp': y -= 10; break;
+            case 'ArrowDown': y += 10; break;
+            case 'ArrowLeft': x -= 10; break;
+            case 'ArrowRight': x += 10; break;
         }
         x = Math.max(0, Math.min(gameArea.clientWidth - player.clientWidth, x));
         y = Math.max(0, Math.min(gameArea.clientHeight - player.clientHeight, y));
         player.style.left = x + 'px';
         player.style.top = y + 'px';
-
         checkCollisions();
     }
 
     function moveEnemy() {
-        let x = enemy.offsetLeft + enemySpeedX;
-        let y = enemy.offsetTop + enemySpeedY;
+        let newX = enemy.offsetLeft + (Math.random() * enemySpeed * 2 - enemySpeed);
+        let newY = enemy.offsetTop + (Math.random() * enemySpeed * 2 - enemySpeed);
+        newX = Math.max(0, Math.min(gameArea.clientWidth - enemy.clientWidth, newX));
+        newY = Math.max(0, Math.min(gameArea.clientHeight - enemy.clientHeight, newY));
+        enemy.style.left = newX + 'px';
+        enemy.style.top = newY + 'px';
+    }
 
-        // Omkeren bij het raken van de rand
-        if (x < 0 || x > gameArea.clientWidth - enemy.clientWidth) {
-            enemySpeedX = -enemySpeedX;
-        }
-        if (y < 0 || y > gameArea.clientHeight - enemy.clientHeight) {
-            enemySpeedY = -enemySpeedY;
-        }
-
-        enemy.style.left = x + 'px';
-        enemy.style.top = y + 'px';
+    function moveObstacles() {
+        obstacles.forEach(obstacle => {
+            let newX = obstacle.offsetLeft + (Math.random() * 0.5 - 0.25);
+            let newY = obstacle.offsetTop + (Math.random() * 0.5 - 0.25);
+            newX = Math.max(0, Math.min(gameArea.clientWidth - obstacle.clientWidth, newX));
+            newY = Math.max(0, Math.min(gameArea.clientHeight - obstacle.clientHeight, newY));
+            obstacle.style.left = newX + 'px';
+            obstacle.style.top = newY + 'px';
+        });
     }
 
     function checkCollisions() {
         if (isCollision(player, enemy)) {
             score++;
             scoreElement.textContent = 'Eliminaties: ' + score;
-            randomizeEnemy();
+            resetEnemy();
+            enemySpeed += 0.5; // De vijand beweegt sneller na elke eliminatie
         }
-
-        obstacles.forEach(obstacle => {
-            if (isCollision(player, obstacle)) {
-                alert('Je hebt een obstakel geraakt! Spel wordt gereset.');
-                resetGame();
-            }
-        });
     }
 
-    function isCollision(a, b) {
-        return a.offsetLeft < b.offsetLeft + b.offsetWidth &&
-               a.offsetLeft + a.offsetWidth > b.offsetLeft &&
-               a.offsetTop < b.offsetTop + b.offsetHeight &&
-               a.offsetTop + a.offsetHeight > b.offsetTop;
-    }
-
-    function resetGame() {
-        score = 0;
-        scoreElement.textContent = 'Eliminaties: 0';
-        player.style.left = '10px';
-        player.style.top = '10px';
-        randomizeEnemy();
-    }
-
-    function randomizeEnemy() {
+    function resetEnemy() {
         const x = Math.floor(Math.random() * (gameArea.clientWidth - enemy.clientWidth));
         const y = Math.floor(Math.random() * (gameArea.clientHeight - enemy.clientHeight));
         enemy.style.left = x + 'px';
         enemy.style.top = y + 'px';
-    }
-
-    setInterval(moveEnemy, 20); // Continu vloeiende beweging van de vijand
-});
-
