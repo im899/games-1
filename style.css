@@ -7,9 +7,9 @@ body, html {
 #gameArea {
     width: 100%;
     height: 100%;
-    background-color: yellow;
-    position: relative;
-    overflow: hidden;
+    background-image: url(C:\Users\amaan\Downloads\games-1-patch-1\mr bakker\mr bakker.jpg)
+    background-size: cover;
+    background-position: center;
 }
 
 #player, #enemy, .obstacle {
